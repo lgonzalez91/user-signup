@@ -28,6 +28,9 @@ class MainHandler(webapp2.RequestHandler):
         content = head + body
         self.response.write(content)
 
+#class LoginHandler(webapp2.LoginHandler):
+
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', MainHandler),
+    #('/login',LoginHandler)
 ], debug=True)
