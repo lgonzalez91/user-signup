@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 import webapp2
+import cgi
 
 class MainHandler(webapp2.RequestHandler):
 
@@ -29,15 +30,19 @@ class MainHandler(webapp2.RequestHandler):
         #content = head + body
         header = """<h2>I want to sign-up</h2>"""
         form = """<form action='/signup' method='post'>
-                <label>Username:<input type='text' name='username'/></label>
+                <label>Username:<input type='text' name='username' required/></label>
                 <br>
-                <label>Password:<input type='text' name='password'/><label>
+                <label>Password:<input type='text' name='password' required/><label>
                 <br>
-                <label>Verify Password:<input type='text' name='verify_password'/></label>
+                <label>Verify Password:<input type='text' name='verify_password' required/></label>
                 <br>
                 <label>E-mail(Optional):<input type='text' name='e-mail'/><label>
                 <br>
                 <input type='submit' value="signup"/></form>"""
+
+        #if (username == ''):
+        #    error = 'Please fill in a username'
+        #    self.redirect('/?error=' cgi.escape(error))
 
         self.response.write(header+form)
 
