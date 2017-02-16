@@ -17,6 +17,34 @@
 import webapp2
 import cgi
 
+def valid_username(username):
+    if ' ' in username:
+        return False
+    else:
+        return username
+
+#def verify_password(password):
+
+def valid_email(email):
+    if '@' not in email:
+        return False
+
+header = """<h2>I want to sign-up</h2>"""
+form = """<form action='/' method='post'>
+                <label>Username:<input type='text' name='username' required/></label>
+                <br>
+                <label>Password:<input type='text' name='password' required/><label>
+                <br>
+                <label>Verify Password:<input type='text' name='verify_password' required/></label>
+                <br>
+                <label>E-mail(Optional):<input type='text' name='email'/><label>
+                <br>
+                <input type='submit' value="signup"/></form>"""
+#def verify_password(password,verfify_password):
+
+#def valid_email(email):
+
+
 class MainHandler(webapp2.RequestHandler):
 
     def get(self):
@@ -28,38 +56,46 @@ class MainHandler(webapp2.RequestHandler):
         #formarea = "<form method='post'></table></tbody>"+Username+"<br>"+Password+"<br>"+Verify_password+"<br>"+Email+"</tbody><br><input type='submit'></form>"
         #body = "<body><h1>Signup</h1></body>" + formarea
         #content = head + body
-        header = """<h2>I want to sign-up</h2>"""
-        form = """<form action='/signup' method='post'>
-                <label>Username:<input type='text' name='username' required/></label>
-                <br>
-                <label>Password:<input type='text' name='password' required/><label>
-                <br>
-                <label>Verify Password:<input type='text' name='verify_password' required/></label>
-                <br>
-                <label>E-mail(Optional):<input type='text' name='e-mail'/><label>
-                <br>
-                <input type='submit' value="signup"/></form>"""
-
-        #if (username == ''):
-        #    error = 'Please fill in a username'
-        #    self.redirect('/?error=' cgi.escape(error))
 
         self.response.write(header+form)
 
-class SignupHandler(webapp2.RequestHandler):
-
     def post(self):
-        header = '<h2>Sign-up</h2>'
+
         username = self.request.get('username')
+        email = self.request.get('email')
         signup_confirm = username +' has signed up.'
 
-        self.response.write(header+signup_confirm)
+
+        if (valid_username(username) == False):
+            self.response.write(header+form)
+        #else:
+        #    self.response.write('valid username')
+
+        if (valid_email(email) == False):
+            self.response.write(header+form)
+
+            #self.response.write(header+form)
+
+#class SignupHandler(webapp2.RequestHandler):
+
+#    def post(self):
+#        header = '<h2>Sign-up</h2>'
+#        username = self.request.get('username')
+#        password = self.request.get('password')
+#        verify_password = self.request.get('verify_password')
+#        signup_confirm = username +' has signed up.'
+#        error = 'Passwords do not match'
+
+#        self.response.write(header+signup_confirm)
+
+        #if (password /= verify_password):
+        #    self.redirect('/?error='+error)
 
 #class LoginHandler(webapp2.LoginHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/signup',SignupHandler),
+#    ('/signup',SignupHandler),
 ], debug=True)
 #app = webapp2.WSGIApplication(  [
 #    ('/', MainHandler),
